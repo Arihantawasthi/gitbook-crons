@@ -1,7 +1,6 @@
 import subprocess
-import os
+from cfg import GIT_DIR
 
-GIT_DIR = os.environ.get("GIT_DIR", "")
 
 def num_of_commits(repo_path):
     try:
@@ -79,4 +78,3 @@ def gather_stats():
         print(f"Failed to get repositories: {err}")
 
     return data
-

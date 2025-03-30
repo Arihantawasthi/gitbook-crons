@@ -7,3 +7,5 @@ DATABASE_CONFIG = {
     "host": os.environ.get("DB_HOST", ""),
     "port": os.environ.get("DB_PORT", "")
 }
+
+GIT_DIR = os.environ.get("GIT_DIR", "")
