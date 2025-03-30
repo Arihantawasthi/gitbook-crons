@@ -12,7 +12,8 @@ def get_repo_metadata(repo_path):
 
         default_branch = subprocess.check_output(["git", "--git-dir", repo_path, "symbolic-ref", "--short", "HEAD"]).decode().strip()
 
-        created_at = subprocess.check_output(["git", "--git-dir", repo_path, "log", "--reverse", "--format=%ct", "--max-count=1"]).decode().strip()
+        first_commit_hash = subprocess.check_output(["git", "--git-dir", repo_path, "rev-list", "--max-parents=0", "HEAD"]).decode().strip()
+        created_at = subprocess.check_output(["git", "--git-dir", repo_path, "show", "-s", "--format=%ct", first_commit_hash]).decode().strip()
         created_at = datetime.fromtimestamp(int(created_at), UTC) if created_at else None
 
         desc_file = os.path.join(repo_path, "description")

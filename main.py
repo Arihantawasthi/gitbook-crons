@@ -28,7 +28,7 @@ def main():
                 insert_repo_metadata(metadata)
 
     else:
-        print(f"Error: unknown task '{task}'")
+        print(f"Error: unknown task {task}")
         sys.exit(1)
 
 
