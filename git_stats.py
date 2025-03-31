@@ -1,5 +1,6 @@
 import subprocess
 from cfg import GIT_DIR
+from db_handler import Storage
 
 
 def num_of_commits(repo_path):
@@ -15,19 +16,6 @@ def num_of_commits(repo_path):
     except subprocess.CalledProcessError as err:
         print(f"Error counting commits in {repo_path}: {err}")
         return 0
-
-def get_all_repos():
-    try:
-        result = subprocess.run(
-            ["ls", GIT_DIR],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        return result.stdout.splitlines()
-    except subprocess.CalledProcessError as err:
-        print(f"Error listing repositories: {err}")
-        return []
 
 def num_of_lines(file_names, repo_path):
     total_lines = 0
@@ -55,11 +43,12 @@ def gather_stats():
     }
 
     try:
-        repos = get_all_repos()
+        repos = Storage().get_public_repo_count()
         data["num_of_repos"] = len(repos)
         try:
             for repo in repos:
-                repo_path = GIT_DIR+repo
+                repo_name = repo[1]+".git"
+                repo_path = GIT_DIR+repo_name
                 result = subprocess.run(
                     ["git", "--git-dir", repo_path, "ls-tree", "-r", "HEAD", "--name-only"],
                     capture_output=True,

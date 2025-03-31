@@ -3,7 +3,7 @@ import sys
 
 from cfg import GIT_DIR
 
-from db_handler import insert_data_into_db, insert_repo_metadata
+from db_handler import Storage
 from git_stats import gather_stats
 from repo_handler import get_repo_metadata
 
@@ -17,15 +17,14 @@ def main():
 
     if task == "update_stats":
         data = gather_stats()
-        insert_data_into_db(data)
+        Storage().insert_data_into_db(data)
 
     elif task == "insert_metadata":
         for repo in os.listdir(GIT_DIR):
             repo_path = os.path.join(GIT_DIR, repo)
             if os.path.isdir(repo_path):
                 metadata = get_repo_metadata(repo_path)
-                print(metadata)
-                insert_repo_metadata(metadata)
+                Storage().insert_repo_metadata(metadata)
 
     else:
         print(f"Error: unknown task {task}")
