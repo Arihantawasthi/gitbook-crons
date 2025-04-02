@@ -26,7 +26,7 @@ class Storage:
                 insert_query = """
                     INSERT INTO stats (num_of_lines, num_of_commits, num_of_files, date, num_of_repos)
                     VALUES (%s, %s, %s, %s, %s)
-                    ON CONFLICT (stat_date) DO UPDATE
+                    ON CONFLICT (date) DO UPDATE
                       SET num_of_repos = EXCLUDED.num_of_repos,
                           num_of_commits = EXCLUDED.num_of_commits,
                           num_of_files = EXCLUDED.num_of_files,
